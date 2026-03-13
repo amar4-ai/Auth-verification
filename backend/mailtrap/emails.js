@@ -82,70 +82,75 @@
 // 	}
 // };
 
-
+import * as Brevo from "@getbrevo/brevo";
 import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
 } from "./emailTemplates.js";
-import { resend, sender } from "./resend.config.js";
+import apiInstance, { sender } from "./resend.config.js";
+
+const sendEmail = async (to, subject, html) => {
+  const sendSmtpEmail = new Brevo.SendSmtpEmail();
+  sendSmtpEmail.sender = sender;
+  sendSmtpEmail.to = [{ email: to }];
+  sendSmtpEmail.subject = subject;
+  sendSmtpEmail.htmlContent = html;
+  return await apiInstance.sendTransacEmail(sendSmtpEmail);
+};
 
 export const sendVerificationEmail = async (email, verificationToken) => {
   try {
-    const response = await resend.emails.send({
-      from: `${sender.name} <${sender.email}>`,
-      to: email,
-      subject: "Verify your email",
-      html: VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", verificationToken),
-    });
-    console.log("Email sent successfully", response.id);
+    const response = await sendEmail(
+      email,
+      "Verify your email",
+      VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", verificationToken)
+    );
+    console.log("Verification email sent successfully", response);
   } catch (error) {
-    console.error(`Error sending verification email`, error);
+    console.error("Error sending verification email", error);
     throw new Error(`Error sending verification email: ${error}`);
   }
 };
 
 export const sendWelcomeEmail = async (email, name) => {
   try {
-    const response = await resend.emails.send({
-      from: `${sender.name} <${sender.email}>`,
-      to: email,
-      subject: "Welcome to Auth App! 🎉",
-      html: `<p>Hello ${name}, your email has been verified successfully!</p>`,
-    });
-    console.log("Welcome email sent successfully", response.id);
+    const response = await sendEmail(
+      email,
+      "Welcome to Auth App! 🎉",
+      `<p>Hello ${name}, your email has been verified successfully!</p>`
+    );
+    console.log("Welcome email sent successfully", response);
   } catch (error) {
-    console.error(`Error sending welcome email`, error);
+    console.error("Error sending welcome email", error);
     throw new Error(`Error sending welcome email: ${error}`);
   }
 };
 
 export const sendPasswordResetEmail = async (email, resetURL) => {
   try {
-    const response = await resend.emails.send({
-      from: `${sender.name} <${sender.email}>`,
-      to: email,
-      subject: "Reset your password",
-      html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
-    });
-    console.log("Password reset email sent successfully", response.id);
+    const response = await sendEmail(
+      email,
+      "Reset your password",
+      PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL)
+    );
+    console.log("Password reset email sent successfully", response);
   } catch (error) {
-    console.error(`Error sending password reset email`, error);
+    console.error("Error sending password reset email", error);
     throw new Error(`Error sending password reset email: ${error}`);
   }
 };
 
 export const sendResetSuccessEmail = async (email) => {
   try {
-    const response = await resend.emails.send({
-      from: `${sender.name} <${sender.email}>`,
-      to: email,
-      subject: "Password Reset Successful",
-      html: PASSWORD_RESET_SUCCESS_TEMPLATE,
-    });
-    console.log("Password reset success email sent successfully", response.id);
+    const response = await sendEmail(
+      email,
+      "Password Reset Successful",
+      PASSWORD_RESET_SUCCESS_TEMPLATE
+    );
+    console.log("Password reset success email sent successfully", response);
   } catch (error) {
-    console.error(`Error sending password reset success email`, error);
+    console.error("Error sending password reset success email", error);
     throw new Error(`Error sending password reset success email: ${error}`);
   }
 };

@@ -15,12 +15,14 @@
 //   email: process.env.EMAIL_USER,
 //   name: "Auth App",
 // };
+import * as Brevo from "@getbrevo/brevo";
 
-import { Resend } from "resend";
+const apiInstance = new Brevo.TransactionalEmailsApi();
+apiInstance.authentications["apiKey"].apiKey = process.env.BREVO_API_KEY;
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+export default apiInstance;
 
 export const sender = {
   name: "Auth App",
-  email: "onboarding@resend.dev",
+  email: "amarkhadkabardiya1234@gmail.com", // your verified Brevo sender email
 };
