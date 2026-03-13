@@ -15,16 +15,17 @@
 //   email: process.env.EMAIL_USER,
 //   name: "Auth App",
 // };
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const brevo = require("@getbrevo/brevo");
+import * as brevo from "@getbrevo/brevo";
 
-const apiInstance = new brevo.TransactionalEmailsApi();
-apiInstance.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
+const client = new brevo.ApiClient();
 
-export default apiInstance;
+client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
+
+const apiInstance = new brevo.TransactionalEmailsApi(client);
 
 export const sender = {
+  email: "amarkhadkabardiya1234@gmail.com", // or your verified sender
   name: "Auth App",
-  email: "amarkhadkabardiya1234@gmail.com",
 };
+
+export default apiInstance;

@@ -81,22 +81,24 @@
 // 		throw new Error(`Error sending password reset success email: ${error}`);
 // 	}
 // };
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const brevo = require("@getbrevo/brevo");
+import * as brevo from "@getbrevo/brevo";
+
 import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
 } from "./emailTemplates.js";
+
 import apiInstance, { sender } from "./resend.config.js";
 
 const sendEmail = async (to, subject, html) => {
   const sendSmtpEmail = new brevo.SendSmtpEmail();
+
   sendSmtpEmail.sender = sender;
   sendSmtpEmail.to = [{ email: to }];
   sendSmtpEmail.subject = subject;
   sendSmtpEmail.htmlContent = html;
+
   return await apiInstance.sendTransacEmail(sendSmtpEmail);
 };
 
@@ -107,6 +109,7 @@ export const sendVerificationEmail = async (email, verificationToken) => {
       "Verify your email",
       VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", verificationToken)
     );
+
     console.log("Verification email sent successfully", response);
   } catch (error) {
     console.error("Error sending verification email", error);
@@ -121,6 +124,7 @@ export const sendWelcomeEmail = async (email, name) => {
       "Welcome to Auth App! 🎉",
       `<p>Hello ${name}, your email has been verified successfully!</p>`
     );
+
     console.log("Welcome email sent successfully", response);
   } catch (error) {
     console.error("Error sending welcome email", error);
@@ -135,6 +139,7 @@ export const sendPasswordResetEmail = async (email, resetURL) => {
       "Reset your password",
       PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL)
     );
+
     console.log("Password reset email sent successfully", response);
   } catch (error) {
     console.error("Error sending password reset email", error);
@@ -149,6 +154,7 @@ export const sendResetSuccessEmail = async (email) => {
       "Password Reset Successful",
       PASSWORD_RESET_SUCCESS_TEMPLATE
     );
+
     console.log("Password reset success email sent successfully", response);
   } catch (error) {
     console.error("Error sending password reset success email", error);
