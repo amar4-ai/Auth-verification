@@ -81,7 +81,9 @@
 // 		throw new Error(`Error sending password reset success email: ${error}`);
 // 	}
 // };
-import { SendSmtpEmail } from "@getbrevo/brevo";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const brevo = require("@getbrevo/brevo");
 import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
@@ -90,7 +92,7 @@ import {
 import apiInstance, { sender } from "./resend.config.js";
 
 const sendEmail = async (to, subject, html) => {
-  const sendSmtpEmail = new SendSmtpEmail();
+  const sendSmtpEmail = new brevo.SendSmtpEmail();
   sendSmtpEmail.sender = sender;
   sendSmtpEmail.to = [{ email: to }];
   sendSmtpEmail.subject = subject;

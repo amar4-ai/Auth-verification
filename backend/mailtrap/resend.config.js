@@ -15,10 +15,12 @@
 //   email: process.env.EMAIL_USER,
 //   name: "Auth App",
 // };
-import { TransactionalEmailsApi, SendSmtpEmail } from "@getbrevo/brevo";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const brevo = require("@getbrevo/brevo");
 
-const apiInstance = new TransactionalEmailsApi();
-apiInstance.authentications["apiKey"].apiKey = process.env.BREVO_API_KEY;
+const apiInstance = new brevo.TransactionalEmailsApi();
+apiInstance.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
 export default apiInstance;
 
