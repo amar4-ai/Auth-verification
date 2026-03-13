@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "backend/index.js",
-"scripts": {
-  "dev": "cross-env NODE_ENV=development nodemon backend/index.js",
-  "start": "cross-env NODE_ENV=production node backend/index.js",
-  "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
-},
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon backend/index.js",
+    "start": "cross-env NODE_ENV=production node backend/index.js",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -22,7 +22,7 @@
     "jsonwebtoken": "^9.0.3",
     "mailtrap": "^4.4.0",
     "mongoose": "^9.2.3",
-    "nodemailer": "^7.0.13"
+    "resend": "^6.9.3"
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
