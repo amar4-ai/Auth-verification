@@ -15,14 +15,14 @@
 //   email: process.env.EMAIL_USER,
 //   name: "Auth App",
 // };
-import * as Brevo from "@getbrevo/brevo";
+import SibApiV3Sdk from "@getbrevo/brevo";
 
-const apiInstance = new Brevo.TransactionalEmailsApi();
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 apiInstance.authentications["apiKey"].apiKey = process.env.BREVO_API_KEY;
 
 export default apiInstance;
 
 export const sender = {
   name: "Auth App",
-  email: "amarkhadkabardiya1234@gmail.com", // your verified Brevo sender email
+  email: "amarkhadkabardiya1234@gmail.com",
 };
