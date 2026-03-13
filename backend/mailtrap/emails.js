@@ -81,7 +81,7 @@
 // 		throw new Error(`Error sending password reset success email: ${error}`);
 // 	}
 // };
-import SibApiV3Sdk from "@getbrevo/brevo";
+import { SendSmtpEmail } from "@getbrevo/brevo";
 import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
@@ -90,7 +90,7 @@ import {
 import apiInstance, { sender } from "./resend.config.js";
 
 const sendEmail = async (to, subject, html) => {
-  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+  const sendSmtpEmail = new SendSmtpEmail();
   sendSmtpEmail.sender = sender;
   sendSmtpEmail.to = [{ email: to }];
   sendSmtpEmail.subject = subject;
